@@ -183,7 +183,20 @@ class CAT_MH_CHA extends \ExternalModules\AbstractExternalModule {
 		// echo "<a href='$interview_url' style='font-size: 16px;'>CAT-MH Interview $seq_name</a>";
 		// echo "<br><br><h6>Alternatively you may visit the URL directly:</h6><br><span>$interview_url</span>";
 	}
-	
+
+	public function redcap_module_link_check_display($project_id, $link) {
+	       if ($this->getUser()->isSuperUser() ||
+	       	   $this->getUser()->hasDesignRights()) {
+	       	  return true;
+	       }
+	       elseif ("CAT-MH Interview Results Report" == $link['name']) {
+	       	  return true;
+	       }
+	       else {
+		  return false;
+	       }
+	 }
+
 	// crons
 	public function emailer_cron($cronInfo=null, $current_time=null) {
 		$originalPid = htmlentities($_GET['pid'], ENT_QUOTES, 'UTF-8');
